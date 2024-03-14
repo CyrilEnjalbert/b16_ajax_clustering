@@ -1,0 +1,16 @@
+# Répertoires
+__pycache__/
+data/
+
+# csv
+**/*.csv
+
+# Modèles
+**/*.pb
+**/*.keras
+**/*.h5
+**/*.pkl
+
+# images
+**/*.png
+
