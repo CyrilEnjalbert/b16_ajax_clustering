@@ -12,22 +12,23 @@
     <h1>Get a Prediction</h1>
 
         <h2>Choose your model:</h2>
-        <form action="/plot_results" method="post">
+        <form>
             <select id="modelDropdown">
                 <option value="Kmeans">K-means</option>
                 <option value="banana">Banana</option>
                 <option value="orange">Orange</option>
             </select>
-            <button type="submit">Submit</button>
+            <button type="submit" id="btn-submit">Submit</button>
         </form>
-
-    </form>
+        <div id="result_plot"></div>
+    
+    <script src="../static/main.js"></script>
     <script>
-        // Function to handle dropdown change event
-        document.getElementById('fruitDropdown').addEventListener('change', function() {
-            var selectedValue = this.value;
-            document.getElementById('selectedFruit').innerText = 'Selected fruit: ' + selectedValue;
-        });
+        // // Function to handle dropdown change event
+        // document.getElementById('fruitDropdown').addEventListener('change', function() {
+        //     var selectedValue = this.value;
+        //     document.getElementById('selectedFruit').innerText = 'Selected fruit: ' + selectedValue;
+        // });
     </script>
 </body>
 </html>
