@@ -35,6 +35,12 @@ document.getElementById('btn-submit').addEventListener('click', (event) => {
 });
 
 function showImage(base64Image) {
+    // Supprimer l'image précédente
+    const resultPlot = document.getElementById('result_plot');
+    while (resultPlot.firstChild) {
+        resultPlot.removeChild(resultPlot.firstChild);
+    }
+
     let img = document.createElement('img');
     img.src = "data:image/png;base64," + base64Image;
     document.getElementById('result_plot').appendChild(img);

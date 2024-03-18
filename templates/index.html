@@ -18,11 +18,10 @@
             <select id="modelDropdown">
                 <option value="Kmeans">K-means</option>
                 <option value="agglo">Agglomeration</option>
-                <option value="orange">Orange</option>
             </select>
             <br><br>
             <label for="n_clusters">Number of cluster</label>
-            <input type="number" name="n_clusters" id="n_clusters" min="0">
+            <input type="number" name="n_clusters" id="n_clusters" min="0" required title="Please enter the number of clusters">
             <br><br>
             <button type="submit" id="btn-submit">Submit</button>
         </form>
