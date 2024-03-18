@@ -120,18 +120,16 @@ async def prediction_kmeans(n_clusters : int):
         plt.scatter(cluster_points['Income'], cluster_points['Score'],
                     s=50, label=f'Cluster {cluster_label + 1}')  # Plot points for the current cluster
         plt.scatter(centroid[0], centroid[1], s=300, c='black', marker='*', label=f'Centroid {cluster_label + 1}')  # Plot the centroid
+        plt.title('Clusters of Customers')
+        plt.xlabel('Annual Income (k$)')
+        plt.ylabel('Spending Score (1-100)')
+        plt.legend()
         # Save plot to BytesIO buffer
         buffer = BytesIO()
         plt.savefig(buffer, format='png')
         buffer.seek(0)
         # Encode plot as base64 string
         plot_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
-        # Close plot to release resources
-        plt.close()
-        plt.title('Clusters of Customers')
-        plt.xlabel('Annual Income (k$)')
-        plt.ylabel('Spending Score (1-100)')
-        plt.legend()
         plot_file = f"img/plot_kmeans_{n_clusters}_clusters.png"
         plt.savefig(plot_file)
         print("Plot validated")
@@ -175,18 +173,16 @@ async def prediction_agglo(n_clusters : int):
                     s=50, label=f'Cluster {cluster_label + 1}')
         # Plot the centroid
         plt.scatter(centroid[0], centroid[1], s=300, c='black', marker='*', label=f'Centroid {cluster_label + 1}')
+        plt.title('Clusters of Customers')
+        plt.xlabel('Annual Income (k$)')
+        plt.ylabel('Spending Score (1-100)')
+        plt.legend()
         # Save plot to BytesIO buffer
         buffer = BytesIO()
         plt.savefig(buffer, format='png')
         buffer.seek(0)
         # Encode plot as base64 string
         plot_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
-        # Close plot to release resources
-        plt.close()
-        plt.title('Clusters of Customers')
-        plt.xlabel('Annual Income (k$)')
-        plt.ylabel('Spending Score (1-100)')
-        plt.legend()
         plot_file = f"img/plot_agglo_{n_clusters}_clusters.png"
         plt.savefig(plot_file)
         print("Plot validated")
