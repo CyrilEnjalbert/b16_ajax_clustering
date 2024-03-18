@@ -8,10 +8,12 @@ from sklearn.cluster import AgglomerativeClustering
 import seaborn as sns
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import silhouette_score, davies_bouldin_score
-from fastapi import FastAPI, File, UploadFile
-import httpx
+from fastapi import FastAPI, File, UploadFile, Request
 import base64
 from io import BytesIO
+from fastapi.middleware.cors import CORSMiddleware
+import matplotlib
+matplotlib.use('Agg')
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
@@ -88,12 +90,21 @@ def plot_agglo(cluster_label, n_clusters, cluster_points):
 app = FastAPI()
 random_state =42
 
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
+)
 
 
 @app.post('/prediction_kmeans')
 async def prediction_kmeans(n_clusters : int):
     model = KMeans
-    kmeans = model(n_clusters, init='k-means++', random_state=random_state)
+    kmeans = model(n_clusters=n_clusters, init='k-means++', random_state=random_state)
     kmeans.fit(X_scaled)
     # Calculate silhouette score
     silhouette = silhouette_score(X_scaled, kmeans.labels_)
@@ -109,19 +120,17 @@ async def prediction_kmeans(n_clusters : int):
         plt.scatter(cluster_points['Income'], cluster_points['Score'],
                     s=50, label=f'Cluster {cluster_label + 1}')  # Plot points for the current cluster
         plt.scatter(centroid[0], centroid[1], s=300, c='black', marker='*', label=f'Centroid {cluster_label + 1}')  # Plot the centroid
+        plt.title('Clusters of Customers')
+        plt.xlabel('Annual Income (k$)')
+        plt.ylabel('Spending Score (1-100)')
+        plt.legend()
         # Save plot to BytesIO buffer
         buffer = BytesIO()
         plt.savefig(buffer, format='png')
         buffer.seek(0)
         # Encode plot as base64 string
         plot_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
-        # Close plot to release resources
-        plt.close()
-        plt.title('Clusters of Customers')
-        plt.xlabel('Annual Income (k$)')
-        plt.ylabel('Spending Score (1-100)')
-        plt.legend()
-        plot_file = f"img/plot_agglo_{n_clusters}_clusters.png"
+        plot_file = f"img/plot_kmeans_{n_clusters}_clusters.png"
         plt.savefig(plot_file)
         print("Plot validated")
     print("Plot and Metrics for Kmeans sended")
@@ -164,18 +173,16 @@ async def prediction_agglo(n_clusters : int):
                     s=50, label=f'Cluster {cluster_label + 1}')
         # Plot the centroid
         plt.scatter(centroid[0], centroid[1], s=300, c='black', marker='*', label=f'Centroid {cluster_label + 1}')
+        plt.title('Clusters of Customers')
+        plt.xlabel('Annual Income (k$)')
+        plt.ylabel('Spending Score (1-100)')
+        plt.legend()
         # Save plot to BytesIO buffer
         buffer = BytesIO()
         plt.savefig(buffer, format='png')
         buffer.seek(0)
         # Encode plot as base64 string
         plot_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
-        # Close plot to release resources
-        plt.close()
-        plt.title('Clusters of Customers')
-        plt.xlabel('Annual Income (k$)')
-        plt.ylabel('Spending Score (1-100)')
-        plt.legend()
         plot_file = f"img/plot_agglo_{n_clusters}_clusters.png"
         plt.savefig(plot_file)
         print("Plot validated")
