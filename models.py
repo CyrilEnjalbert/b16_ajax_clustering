@@ -1,14 +1,15 @@
-import numpy as np 
+# ---------------------------------- Imports --------------------------------
+
 import pandas as pd 
 import matplotlib.pyplot as plt 
 from sklearn.cluster import KMeans
 import os
+import uvicorn
 from sklearn.cluster import KMeans
 from sklearn.cluster import AgglomerativeClustering
-import seaborn as sns
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import silhouette_score, davies_bouldin_score
-from fastapi import FastAPI, File, UploadFile, Request
+from fastapi import FastAPI
 import base64
 from io import BytesIO
 from fastapi.middleware.cors import CORSMiddleware
@@ -18,15 +19,29 @@ matplotlib.use('Agg')
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
 # ---------------------------------- Data Processing --------------------------------
+
+
+def create_img_folder():
+    # Get the current directory
+    current_directory = os.getcwd()
+
+    # Define the path to the img folder
+    img_folder_path = os.path.join(current_directory, "img")
+
+    # Check if the img folder exists
+    if not os.path.exists(img_folder_path):
+        # If it doesn't exist, create it
+        os.makedirs(img_folder_path)
+        print("img folder created successfully.")
+    else:
+        print("img folder already exists.")
+
+if __name__ == "__main__":
+    create_img_folder()
+
 # The data process set X on : 'Income', 'Score' and Y on : 'Gender'.
 
 df = pd.read_csv(r'./data/Mall_Customers.csv')
-df.head()
-
-df.dtypes
-
-df.describe()
-
 df.rename(index=str, columns={'Annual Income (k$)': 'Income',
                               'Spending Score (1-100)': 'Score'}, inplace=True)
 
@@ -37,53 +52,6 @@ scaler = MinMaxScaler()
 X_scaled = scaler.fit_transform(X)
 
 print("Data Processing validated")
-
-
-# ---------------------------------- Plot --------------------------------
-
-
-def plot_kmeans(cluster_label, cluster_points):
-    plt.figure(figsize=(12, 8))
-    for cluster_label in range(5):  # Loop through each cluster label
-        cluster_points = X[kmeans.labels_ == cluster_label]
-        centroid = cluster_points.mean(axis=0)  # Calculate the centroid as the mean position of the data points
-        plt.scatter(cluster_points['Income'], cluster_points['Score'],
-                    s=50, label=f'Cluster {cluster_label + 1}')  # Plot points for the current cluster
-        plt.scatter(centroid[0], centroid[1], s=300, c='black', marker='*', label=f'Centroid {cluster_label + 1}')  # Plot the centroid
-    plt.title('Clusters of Customers')
-    plt.xlabel('Annual Income (k$)')
-    plt.ylabel('Spending Score (1-100)')
-    plt.legend()
-    plt.savefig('plot_kmeans.png')
-
-
-    print("Plot validated")
-
-
-
-def plot_agglo(cluster_label, n_clusters, cluster_points):
-    # Plot the clusters
-    plt.figure(figsize=(12, 8))
-    for cluster_label in range(n_clusters):  
-        # Extract points belonging to the current cluster
-        cluster_points = X[X['Labels'] == cluster_label]
-        # Calculate the centroid as the mean position of the data points in the cluster
-        centroid = cluster_points[['Income', 'Score']].mean(axis=0)
-        
-        # Plot points for the current cluster
-        plt.scatter(cluster_points['Income'], cluster_points['Score'],
-                    s=50, label=f'Cluster {cluster_label + 1}')
-        
-        # Plot the centroid
-        plt.scatter(centroid[0], centroid[1], s=300, c='black', marker='*', label=f'Centroid {cluster_label + 1}')
-
-    plt.title('Clusters of Customers')
-    plt.xlabel('Annual Income (k$)')
-    plt.ylabel('Spending Score (1-100)')
-    plt.legend()
-    plt.savefig('plot_agglo.png')
-
-    print("Plot validated")
 
 
 # ---------------------------------- Kmeans API --------------------------------
@@ -144,6 +112,8 @@ async def prediction_kmeans(n_clusters : int):
         'plot_image': plot_base64
     }
     return response
+
+
 # ---------------------------------- Agglom API --------------------------------
 
 
@@ -202,7 +172,6 @@ async def prediction_agglo(n_clusters : int):
 # ---------------------------------- Server --------------------------------
 
 
-import uvicorn
 
 if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=8001)

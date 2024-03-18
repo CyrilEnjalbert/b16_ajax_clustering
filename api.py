@@ -1,8 +1,6 @@
-from fastapi import FastAPI, HTTPException, Request
-from pydantic import BaseModel
+from fastapi import FastAPI
 import uvicorn
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 import httpx
 
@@ -22,17 +20,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class PredictionInput(BaseModel):
-    model_name: str
-    params:list[str]
-
-# @app.get('/choose_model_test')
-# async def run_prediction(model_name: str):
-#     if model_name == "Kmeans":
-#         image_path = "plot_kmeans.png"
-#         return FileResponse(image_path, media_type="image/png")
-#     else:
-#         return HTTPException(status_code=404, detail="Model not found")
 
 @app.get('/test') 
 async def test():
@@ -54,5 +41,8 @@ async def run_prediction(n_clusters: int, model_name = str):
             
             return response.text
         
+        
+
+    
 if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=8000)
