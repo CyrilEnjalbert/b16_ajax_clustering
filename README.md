@@ -26,7 +26,7 @@ python api.py
 python models.py
 ```
 
-->P Ouvrez "templates/index.html" dans votre navigateur web pour accéder à l'interface :
+-> Ouvrez "templates/index.html" dans votre navigateur web pour accéder à l'interface :
 Vous pouvez sélectionner le modèle voulu et le nombres de clusters désirés.
 
 Note - au-dela de 4 clusters une erreur peut subvenir selon votre connection et votre surface d'application :
@@ -58,7 +58,7 @@ Le modèle crée une image du graphique de sauvegarde dans un dossier "img", le 
         'plot_image': plot_base64
 ```
 
-Le formatage des données est commun au deux modèles et réalisé avec la librarie "pandas".<br>
+Le formatage des données est commun aux deux modèles et réalisé avec la librarie "pandas".<br>
 
 Les deux modèles ont chacun leurs "Endpoints" indépendants contenant une fonction asynchrone réalisant le "processing" du modèle,calculant les métriques et la création du graphique avec "matplotlib.pyplot".<br>
 
