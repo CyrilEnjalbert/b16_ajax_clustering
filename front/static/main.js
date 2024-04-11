@@ -19,7 +19,7 @@ document.getElementById('btn-submit').addEventListener('click', (event) => {
     const selectedModel = document.getElementById('modelDropdown').value;
     const selectedClusters = document.getElementById('n_clusters').value;
 
-    fetch('http://localhost:8000/choose_model/' + selectedModel + '?n_clusters=' + selectedClusters, {
+    fetch('http://172.21.0.2:8000/choose_model/' + selectedModel + '?n_clusters=' + selectedClusters, {
         method: 'POST'
     })
     .then(response => response.text()) 

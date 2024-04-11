@@ -14,6 +14,8 @@ import base64
 from io import BytesIO
 from fastapi.middleware.cors import CORSMiddleware
 import matplotlib
+
+
 matplotlib.use('Agg')
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
@@ -36,8 +38,7 @@ def create_img_folder():
     else:
         print("img folder already exists.")
 
-if __name__ == "__main__":
-    create_img_folder()
+
 
 # The data process set X on : 'Income', 'Score' and Y on : 'Gender'.
 
@@ -172,6 +173,6 @@ async def prediction_agglo(n_clusters : int):
 # ---------------------------------- Server --------------------------------
 
 
-
 if __name__ == '__main__':
+    create_img_folder()
     uvicorn.run(app, host='0.0.0.0', port=8001)
