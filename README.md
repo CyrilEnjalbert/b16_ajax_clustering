@@ -34,6 +34,47 @@ Note - au-dela de 4 clusters une erreur peut subvenir selon votre connection et 
 ```bash
 httpx.ReadTimeout
 ```
+### Dockerisation
+
+Créez un réseau Docker pour permettre la communication entre les conteneurs.
+
+```bash
+docker network create -d bridge b15_cluster_network
+```
+
+Vérifiez la configuration du réseau :
+
+```bash
+docker network inspect b15_cluster_network
+```
+Construire l'image du front : 
+
+```bash
+docker build -t b15_cluster_front -f Dockerfile.front .
+```
+
+Construire le container à partir de l'image du front :
+
+```bash
+docker run -d -p 8000:8000 b15_cluster_front
+docker run -d -p 8000:8000 --network b15_cluster_network b15_cluster_front
+```
+
+Construire l'image du back : 
+
+```bash
+docker build -t b15_cluster_back -f Dockerfile.back .
+```
+
+Construire le container à partir de l'image du back :
+
+```bash
+docker run -d -p 8001:8001 b15_cluster_back
+docker run -d -p 8001:8001 --network b15_cluster_network b15_cluster_back
+```
+
+
+
 ## Rapports SpecOps :
 
 Le projet est constitué de deux "micro-services" : le premier est l'API permettant l'échange de données avec le modèle et la saisie de formulaire HTML, ces données sont envoyés via une API-REST au deuxième, le modèle qui execute sa prédiction sur la data fournie en local, est évalué et génère un graphique du clustering réalisé. Le graphique et les métriques du modèle sont renvoyés à l'interface UI via une deuxième API-REST.
