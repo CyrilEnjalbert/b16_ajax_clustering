@@ -12,7 +12,7 @@ Le but de ce brief est de créer une application intégrant :
 
 ### Procédure 
 
--> Importer la base de données, créer et stocker dans un fichier "data": 
+-> Importer la base de données, créer et stocker dans un fichier "data" dans le fichier "back": 
 https://www.kaggle.com/datasets/vjchoudhary7/customer-segmentation-tutorial-in-python
 
 
@@ -36,43 +36,13 @@ httpx.ReadTimeout
 ```
 ### Dockerisation
 
-Créez un réseau Docker pour permettre la communication entre les conteneurs.
+Déployez le front, le back et le réseau Docker pour permettre la communication entre les conteneurs avec le fichier docker-compose : 
 
 ```bash
-docker network create -d bridge b15_cluster_network
+docker-compose up
 ```
 
-Vérifiez la configuration du réseau :
-
-```bash
-docker network inspect b15_cluster_network
-```
-Construire l'image du front : 
-
-```bash
-docker build -t b15_cluster_front -f Dockerfile.front .
-```
-
-Construire le container à partir de l'image du front :
-
-```bash
-docker run -d -p 8000:8000 b15_cluster_front
-docker run -d -p 8000:8000 --network b15_cluster_network b15_cluster_front
-```
-
-Construire l'image du back : 
-
-```bash
-docker build -t b15_cluster_back -f Dockerfile.back .
-```
-
-Construire le container à partir de l'image du back :
-
-```bash
-docker run -d -p 8001:8001 b15_cluster_back
-docker run -d -p 8001:8001 --network b15_cluster_network b15_cluster_back
-```
-
+(à éxécuter dans le dossier racine)
 
 
 ## Rapports SpecOps :
