@@ -1,27 +1,14 @@
-// document.getElementById('btn-submit').addEventListener('click', (event) => {
-//     event.preventDefault()
-//     const selectedModel = document.getElementById('modelDropdown').value;
-    
-//     fetch(`http://localhost:8000/choose_model_test?model_name=${selectedModel}`)
-//     .then(response => response.blob())
-//     .then(blob => {
-//         const imgUrl = URL.createObjectURL(blob);
-//         document.getElementById('result_plot').innerHTML = `<img src="${imgUrl}" alt="Plot Image">`;
-//     })
-//     .catch(error => {
-//         console.error('Error:', error);
-//     });
-// });
-
 
 document.getElementById('btn-submit').addEventListener('click', (event) => {
     event.preventDefault();
     const selectedModel = document.getElementById('modelDropdown').value;
     const selectedClusters = document.getElementById('n_clusters').value;
 
-    fetch('http://172.21.0.2:8000/choose_model/' + selectedModel + '?n_clusters=' + selectedClusters, {
+
+    fetch('http://localhost:8000/choose_model/' + selectedModel + '?n_clusters=' + selectedClusters, {
         method: 'POST'
     })
+
     .then(response => response.text()) 
     .then(text => { 
         let resObject = JSON.parse(text);
