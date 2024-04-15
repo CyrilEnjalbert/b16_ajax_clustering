@@ -12,7 +12,7 @@ Le but de ce brief est de créer une application intégrant :
 
 ### Procédure 
 
--> Importer la base de données, créer et stocker dans un fichier "data": 
+-> Importer la base de données, créer et stocker dans un fichier "data" dans le fichier "back": 
 https://www.kaggle.com/datasets/vjchoudhary7/customer-segmentation-tutorial-in-python
 
 
