@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  backend:
+ backend:
     build:
       context: .
       dockerfile: Dockerfile.back # Path to the directory containing the backend Dockerfile
@@ -9,18 +9,25 @@ services:
     ports:
       - "8001:8001"
     networks:
-      - b15_cluster_network
+      b15_cluster_network:
+        ipv4_address: 172.21.0.2
 
-  frontend:
+ frontend:
     build:
       context: .
-      dockerfile: Dockerfile.front  # Path to the directory containing the frontend Dockerfile
+      dockerfile: Dockerfile.front # Path to the directory containing the frontend Dockerfile
     container_name: b15_clustering_frontend
     ports:
       - "8000:8000"
     networks:
-      - b15_cluster_network
+      b15_cluster_network:
+        ipv4_address: 172.21.0.3
 
 networks:
-  b15_cluster_network:
+ b15_cluster_network:
     driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.21.0.0/16
+
