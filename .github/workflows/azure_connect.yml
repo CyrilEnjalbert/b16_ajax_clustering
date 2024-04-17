@@ -29,7 +29,7 @@ jobs:
         docker push cyrilb15ajaxacr.azurecr.io/frontb15:latest
     
     - name: Find and Replace
-      uses: CyrilEnjalbert/b16_ajax_clustering@v1
+      uses: jacobtomlinson/gha-find-replace@v2
       with:
         find: "password.registry"
         replace: ${{ secrets.AZURE_REGISTRY_SECRET }}
