@@ -33,7 +33,7 @@ jobs:
       with:
         find: "password.registry"
         replace: ${{ secrets.AZURE_REGISTRY_SECRET }}
-        regex: true
+        regex: false
         include: 'deploy-aci.yaml'
     
     - name: Azure CLI script

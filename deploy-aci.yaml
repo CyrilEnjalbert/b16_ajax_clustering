@@ -5,7 +5,7 @@ properties:
   imageRegistryCredentials:
     - server: cyrilb15ajaxacr.azurecr.io
       username: cyrilb15ajaxacr
-      password: password.registery
+      password: password.registry
   containers:
     - name: backend
       properties:
