@@ -1,0 +1,37 @@
+apiVersion: 2019-12-01
+location: francecentral
+name: cyrilb15ajaxacrfastfront
+properties:
+  imageRegistryCredentials:
+    - server: cyrilb15ajaxacr.azurecr.io
+      username: cyrilb15ajaxacr
+      password: password.registery
+  containers:
+    - name: backend
+      properties:
+        image: cyrilb15ajaxacr.azurecr.io/backb15:latest
+        ports:
+          - port: 8001
+        resources:
+          requests:
+            cpu: 1
+            memoryInGb: 1.5
+    - name: frontend
+      properties:
+        image: cyrilb15ajaxacr.azurecr.io/frontb15:latest
+        ports:
+          - port: 8000
+        resources:
+          requests:
+            cpu: 1
+            memoryInGb: 1.5
+  osType: Linux
+  ipAddress:
+    type: Public
+    dnsNameLabel: cyrilb15ajaxacr-fastfront
+    ports:
+      - protocol: tcp
+        port: 8001
+      - protocol: tcp
+        port: 8000
+type: Microsoft.ContainerInstance/containerGroups

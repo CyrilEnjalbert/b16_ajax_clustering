@@ -5,7 +5,7 @@ document.getElementById('btn-submit').addEventListener('click', (event) => {
     const selectedClusters = document.getElementById('n_clusters').value;
 
 
-    fetch('http://localhost:8000/choose_model/' + selectedModel + '?n_clusters=' + selectedClusters, {
+    fetch('http://cyrilb15ajaxacr-fastfront.francecentral.azurecontainer.io:8000/choose_model/' + selectedModel + '?n_clusters=' + selectedClusters, {
         method: 'POST'
     })
 

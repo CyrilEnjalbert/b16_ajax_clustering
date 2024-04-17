@@ -1,0 +1,45 @@
+on: [push]
+
+name: Run Azure Login With a Service Principal Secret
+
+jobs:
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: azure acr login
+      run: |
+        az acr login --name cyrilb15ajaxacr
+
+    - name: build and push images
+      run: |
+        docker build -t b15_clustering_backend -f Dockerfile.back .
+        docker build -t b15_clustering_frontend -f Dockerfile.front .
+        docker tag b16_ajax_clustering_frontend:latest cyrilb15ajaxacr.azurecr.io/frontb15:latest
+        docker tag b16_ajax_clustering_backend:latest cyrilb15ajaxacr.azurecr.io/backb15:latest
+        docker push cyrilb15ajaxacr.azurecr.io/backb15:latest
+        docker push cyrilb15ajaxacr.azurecr.io/frontb15:latest
+    
+    - name: Find and Replace
+      uses: CyrilEnjalbert/gha-find-replace@v2
+      with:
+        find: "password.registry"
+        replace: ${{ secrets.AZURE_REGISTRY_SECRET }}
+        regex: true
+        include: 'deploy-aci.yaml'
+    
+    - name: Azure CLI script
+      uses: azure/CLI@v1
+      with:
+        azcliversion: latest
+        inlineScript: |
+          az container delete --name cyrilb15ajaxacrfastfront --resource-group cyril_b15_ajax --yes
+          az container create --resource-group cyril_b15_ajax --file deploy-aci.yaml

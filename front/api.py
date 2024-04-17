@@ -14,7 +14,7 @@ app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-URL_BACKEND = "172.21.0.2"
+URL_BACKEND = "cyrilb15ajaxacr-fastfront.francecentral.azurecontainer.io"
 #URL_BACKEND = "localhost"
 
 
@@ -39,14 +39,14 @@ async def index(request: Request):
 async def run_prediction(n_clusters: int, model_name = str):
     if model_name == "Kmeans":
     # Send the data to the receiver API
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(timeout=3.0) as client:
             response = await client.post(f"http://{URL_BACKEND}:8001/prediction_kmeans", params={"n_clusters": n_clusters})
 
             return response.text
 
     if model_name == "agglo":
     # Send the data to the receiver API
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(timeout=3.0) as client:
             response = await client.post(f"http://{URL_BACKEND}:8001/prediction_agglo", params={"n_clusters": n_clusters})
             
             return response.text
