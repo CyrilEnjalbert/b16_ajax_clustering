@@ -42,7 +42,7 @@ def create_img_folder():
 
 # The data process set X on : 'Income', 'Score' and Y on : 'Gender'.
 
-df = pd.read_csv(r'./data/Mall_Customers.csv')
+df = pd.read_csv(r'back\data\Mall_Customers.csv')
 df.rename(index=str, columns={'Annual Income (k$)': 'Income',
                               'Spending Score (1-100)': 'Score'}, inplace=True)
 
@@ -154,7 +154,7 @@ async def prediction_agglo(n_clusters : int):
         buffer.seek(0)
         # Encode plot as base64 string
         plot_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
-        plot_file = f"img/plot_agglo_{n_clusters}_clusters.png"
+        plot_file = f"back\img\plot_agglo_{n_clusters}_clusters.png"
         plt.savefig(plot_file)
         print("Plot validated")
         
