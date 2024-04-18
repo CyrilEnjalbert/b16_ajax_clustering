@@ -11,6 +11,7 @@ import asyncio
 
 
 
+
 # Test prediction_kmeans function
 @pytest.mark.asyncio
 async def test_prediction_kmeans():

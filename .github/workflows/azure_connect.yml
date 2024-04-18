@@ -15,7 +15,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
 
-    - name: Set up Python # Pytest
+    - name: Set up Test Python back # Pytest
       uses: actions/setup-python@v2
       with:
         python-version: 3.9  # Set the Python version you need
@@ -28,12 +28,31 @@ jobs:
         pip install uvicorn
         pip install pandas
         pip install scikit-learn
-        pip install httpx 
         pip install matplotlib
 
-    - name: Run pytest # Pytest
+    - name: Run pytest back # Pytest
       run: |
          cd back && pytest
+
+    - name: Set up Test Python front # Pytest
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9  # Set the Python version you need
+
+    - name: Install dependencies # Pytests
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest
+        pip install fastapi
+        pip install uvicorn
+        pip install httpx 
+        pip install jinja2
+        pip install asyncio
+
+    - name: Run pytest front # Pytest
+      run: |
+         cd front && pytest
+
 
      
 
