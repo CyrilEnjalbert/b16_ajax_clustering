@@ -29,6 +29,7 @@ jobs:
         pip install pandas
         pip install scikit-learn
         pip install httpx 
+        pip install matplotlib
 
     - name: Run pytest # Pytest
       run: |
