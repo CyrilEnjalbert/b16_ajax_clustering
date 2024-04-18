@@ -42,7 +42,7 @@ def create_img_folder():
 
 # The data process set X on : 'Income', 'Score' and Y on : 'Gender'.
 
-df = pd.read_csv(r'back\data\Mall_Customers.csv')
+df = pd.read_csv(r'back/data/Mall_Customers.csv')
 df.rename(index=str, columns={'Annual Income (k$)': 'Income',
                               'Spending Score (1-100)': 'Score'}, inplace=True)
 
