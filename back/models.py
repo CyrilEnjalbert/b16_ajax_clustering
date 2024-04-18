@@ -98,7 +98,7 @@ async def prediction_kmeans(n_clusters : int):
         plt.savefig(buffer, format='png')
         buffer.seek(0)
         # Encode plot as base64 string
-        #plot_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+        plot_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
         #plot_file = f"img/plot_kmeans_{n_clusters}_clusters.png"
         #plt.savefig(plot_file)
         print("Plot validated")
@@ -153,7 +153,7 @@ async def prediction_agglo(n_clusters : int):
         plt.savefig(buffer, format='png')
         buffer.seek(0)
         # Encode plot as base64 string
-        #plot_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+        plot_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
         #plot_file = f"back\img\plot_agglo_{n_clusters}_clusters.png"
         #plt.savefig(plot_file)
         print("Plot validated")
